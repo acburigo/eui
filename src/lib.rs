@@ -14,9 +14,7 @@ pub enum Error {
 impl From<hex::FromHexError> for Error {
     fn from(e: hex::FromHexError) -> Self {
         match e {
-            hex::FromHexError::InvalidHexCharacter { .. } => {
-                Error::InvalidHexCharacter
-            }
+            hex::FromHexError::InvalidHexCharacter { .. } => Error::InvalidHexCharacter,
             hex::FromHexError::InvalidStringLength => Error::InvalidStringLength,
             hex::FromHexError::OddLength => Error::OddLength,
         }
@@ -103,7 +101,7 @@ impl std::convert::TryFrom<&str> for EUI64 {
 
 #[cfg(test)]
 mod tests {
-    use crate::{EUI, EUI48, EUI64, Error};
+    use crate::{Error, EUI, EUI48, EUI64};
     use std::convert::TryFrom;
 
     #[test]
@@ -208,10 +206,7 @@ mod tests {
 
     #[test]
     fn eui48_from_canonical_fmt_missing_character() {
-        assert_eq!(
-            EUI48::try_from("0A-1B-2C-3D-4E-5"),
-            Err(Error::OddLength)
-        );
+        assert_eq!(EUI48::try_from("0A-1B-2C-3D-4E-5"), Err(Error::OddLength));
     }
 
     #[test]
